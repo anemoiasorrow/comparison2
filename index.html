@@ -1,187 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Song Comparison</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <style>
     body {
-      background-color: #181818;
-      color: #e0e0e0;
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 500px;
+      margin-top: 50px;
     }
     .card {
-      background-color: #242424;
+      background: #1e1e1e;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+    }
+    .form-control, .input-group-text {
+      background-color: #333;
       border: none;
-    }
-    .form-control {
-      background-color: #333;
-      color: #e0e0e0;
-      border: 1px solid #444;
-    }
-    .form-control:focus {
-      background-color: #333;
-      color: #e0e0e0;
-      border-color: #3a86ff;
-      box-shadow: none;
-    }
-    .input-group-text {
-      background-color: #333;
-      border: 1px solid #444;
-      color: #e0e0e0;
+      color: #fff;
     }
     .btn-primary {
       background-color: #3a86ff;
-      border: none;
+      border-radius: 8px;
+    }
+    .result-box {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #2b2b2b;
+      text-align: center;
     }
     .accordion-button {
-      background-color: #333;
-      color: #e0e0e0;
-    }
-    .accordion-button:not(.collapsed) {
-      background-color: #3a86ff;
+      background: #3a86ff;
       color: #fff;
-    }
-    .accordion-body {
-      background-color: #242424;
-      color: #e0e0e0;
-    }
-    .compact-card {
-      max-width: 400px;
-      margin: 20px auto;
-      padding: 15px;
-    }
-    .section-title {
-      margin-bottom: 0.5rem;
     }
   </style>
 </head>
 <body>
-  <div class="container py-3">
-    <h3 class="text-center mb-4">Song Comparison</h3>
-    
-    <!-- Input Section -->
-    <div class="card compact-card shadow">
-      <div class="card-body">
-        <form id="songForm">
-          <div class="mb-3">
-            <h5 class="section-title"><i class="bi bi-music-note-beamed"></i> Song A</h5>
-            <div class="input-group input-group-sm mb-2">
-              <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
-              <input type="text" id="titleA" class="form-control" placeholder="Title">
-            </div>
-            <div class="input-group input-group-sm mb-2">
-              <span class="input-group-text"><i class="bi bi-star"></i></span>
-              <input type="number" id="ratingA" class="form-control" placeholder="Rating (0-5)" step="0.1" min="0" max="5">
-            </div>
-            <div class="input-group input-group-sm">
-              <span class="input-group-text"><i class="bi bi-people"></i></span>
-              <input type="number" id="votersA" class="form-control" placeholder="Voters" min="1">
-            </div>
-          </div>
-          
-          <div class="mb-3">
-            <h5 class="section-title"><i class="bi bi-music-note-list"></i> Song B</h5>
-            <div class="input-group input-group-sm mb-2">
-              <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
-              <input type="text" id="titleB" class="form-control" placeholder="Title">
-            </div>
-            <div class="input-group input-group-sm mb-2">
-              <span class="input-group-text"><i class="bi bi-star"></i></span>
-              <input type="number" id="ratingB" class="form-control" placeholder="Rating (0-5)" step="0.1" min="0" max="5">
-            </div>
-            <div class="input-group input-group-sm">
-              <span class="input-group-text"><i class="bi bi-people"></i></span>
-              <input type="number" id="votersB" class="form-control" placeholder="Voters" min="1">
-            </div>
-          </div>
-          
-          <div class="d-grid mb-2">
-            <button type="button" id="compareBtn" class="btn btn-primary btn-sm">Compare Songs</button>
-          </div>
-        </form>
-        <div id="result" class="text-center fw-semibold mb-2"></div>
-        
-        <!-- Details Accordion -->
-        <div class="accordion accordion-flush" id="detailsAccordion">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingDetails">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
-                Show Details
-              </button>
-            </h2>
-            <div id="collapseDetails" class="accordion-collapse collapse" aria-labelledby="headingDetails" data-bs-parent="#detailsAccordion">
-              <div class="accordion-body" id="detailsContent">
-                <!-- Details will be inserted here -->
-              </div>
-            </div>
+  <div class="container">
+    <h3 class="text-center mb-4">Compare Songs</h3>
+    <div class="card">
+      <form id="songForm">
+        <div class="mb-3">
+          <label class="form-label"><i class="bi bi-music-note-beamed"></i> Song A</label>
+          <input type="text" id="titleA" class="form-control mb-2" placeholder="Title">
+          <input type="number" id="ratingA" class="form-control mb-2" placeholder="Rating (0-5)" min="0" max="5" step="0.1">
+          <input type="number" id="votersA" class="form-control" placeholder="Voters" min="1">
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><i class="bi bi-music-note-list"></i> Song B</label>
+          <input type="text" id="titleB" class="form-control mb-2" placeholder="Title">
+          <input type="number" id="ratingB" class="form-control mb-2" placeholder="Rating (0-5)" min="0" max="5" step="0.1">
+          <input type="number" id="votersB" class="form-control" placeholder="Voters" min="1">
+        </div>
+        <button type="button" id="compareBtn" class="btn btn-primary w-100">Compare</button>
+      </form>
+      <div id="result" class="result-box mt-3"></div>
+      <div class="accordion mt-3" id="detailsAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails">
+              Show Details
+            </button>
+          </h2>
+          <div id="collapseDetails" class="accordion-collapse collapse">
+            <div class="accordion-body" id="detailsContent"></div>
           </div>
         </div>
       </div>
     </div>
-    
   </div>
-  
+
   <script>
     document.getElementById('compareBtn').addEventListener('click', function() {
-      // Retrieve and trim input values for Song A
       const titleA = document.getElementById('titleA').value.trim() || "Song A";
       const ratingA = parseFloat(document.getElementById('ratingA').value);
       const votersA = parseInt(document.getElementById('votersA').value);
-      
-      // Retrieve and trim input values for Song B
       const titleB = document.getElementById('titleB').value.trim() || "Song B";
       const ratingB = parseFloat(document.getElementById('ratingB').value);
       const votersB = parseInt(document.getElementById('votersB').value);
       
-      // Validate inputs
       if (isNaN(ratingA) || isNaN(votersA) || isNaN(ratingB) || isNaN(votersB) || votersA <= 0 || votersB <= 0) {
-        document.getElementById('result').innerText = "Please fill in all fields with valid values.";
+        document.getElementById('result').innerText = "Please enter valid values.";
         document.getElementById('detailsContent').innerHTML = "";
         return;
       }
       
-      // Calculate rating proportions
       const pA = ratingA / 5;
       const pB = ratingB / 5;
-      
-      // Calculate standard errors and 95% confidence intervals (z = 1.96)
       const z = 1.96;
       const seA = Math.sqrt(pA * (1 - pA) / votersA);
       const seB = Math.sqrt(pB * (1 - pB) / votersB);
+      const lowerA = pA - z * seA, upperA = pA + z * seA;
+      const lowerB = pB - z * seB, upperB = pB + z * seB;
       
-      const lowerA = pA - z * seA;
-      const upperA = pA + z * seA;
-      const lowerB = pB - z * seB;
-      const upperB = pB + z * seB;
-      
-      // Determine comparison result based on confidence intervals
-      let resultText = "";
+      let resultText = "The results are inconclusive.";
       if (lowerA > upperB) {
         resultText = `${titleA} is statistically better than ${titleB}.`;
       } else if (lowerB > upperA) {
         resultText = `${titleB} is statistically better than ${titleA}.`;
-      } else {
-        resultText = `The results are inconclusive.`;
       }
-      
       document.getElementById('result').innerText = resultText;
-      
-      // Update details section
-      const detailsHTML = `
-        <p><strong>${titleA}</strong> (Proportion: ${(pA*100).toFixed(2)}%)<br>
-        Confidence Interval: [${(lowerA*100).toFixed(2)}%, ${(upperA*100).toFixed(2)}%]</p>
-        <p><strong>${titleB}</strong> (Proportion: ${(pB*100).toFixed(2)}%)<br>
-        Confidence Interval: [${(lowerB*100).toFixed(2)}%, ${(upperB*100).toFixed(2)}%]</p>
+      document.getElementById('detailsContent').innerHTML = `
+        <p><strong>${titleA}</strong>: ${(pA * 100).toFixed(2)}% (CI: [${(lowerA * 100).toFixed(2)}%, ${(upperA * 100).toFixed(2)}%])</p>
+        <p><strong>${titleB}</strong>: ${(pB * 100).toFixed(2)}% (CI: [${(lowerB * 100).toFixed(2)}%, ${(upperB * 100).toFixed(2)}%])</p>
       `;
-      document.getElementById('detailsContent').innerHTML = detailsHTML;
     });
   </script>
-  
-  <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

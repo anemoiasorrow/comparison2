@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Song Comparison App</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 600px;
+      margin-top: 50px;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+    .result {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-center mb-4">Song Comparison</h2>
+    
+    <!-- Song A Form -->
+    <div class="card">
+      <div class="card-header">
+        Song A
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="titleA" class="form-label">Title</label>
+          <input type="text" id="titleA" class="form-control" placeholder="Enter Song A title">
+        </div>
+        <div class="mb-3">
+          <label for="ratingA" class="form-label">Rating (0-5)</label>
+          <input type="number" id="ratingA" class="form-control" placeholder="Enter rating" step="0.1" min="0" max="5">
+        </div>
+        <div class="mb-3">
+          <label for="votersA" class="form-label">Number of Voters</label>
+          <input type="number" id="votersA" class="form-control" placeholder="Enter number of voters" min="1">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Song B Form -->
+    <div class="card">
+      <div class="card-header">
+        Song B
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="titleB" class="form-label">Title</label>
+          <input type="text" id="titleB" class="form-control" placeholder="Enter Song B title">
+        </div>
+        <div class="mb-3">
+          <label for="ratingB" class="form-label">Rating (0-5)</label>
+          <input type="number" id="ratingB" class="form-control" placeholder="Enter rating" step="0.1" min="0" max="5">
+        </div>
+        <div class="mb-3">
+          <label for="votersB" class="form-label">Number of Voters</label>
+          <input type="number" id="votersB" class="form-control" placeholder="Enter number of voters" min="1">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Compare Button -->
+    <div class="d-grid">
+      <button id="compareBtn" class="btn btn-primary">Compare Songs</button>
+    </div>
+    
+    <!-- Result -->
+    <div id="result" class="result mt-4 text-center"></div>
+  </div>
+  
+  <script>
+    document.getElementById('compareBtn').addEventListener('click', function() {
+      // Retrieve input values for Song A
+      const titleA = document.getElementById('titleA').value;
+      const ratingA = parseFloat(document.getElementById('ratingA').value);
+      const votersA = parseInt(document.getElementById('votersA').value);
+      
+      // Retrieve input values for Song B
+      const titleB = document.getElementById('titleB').value;
+      const ratingB = parseFloat(document.getElementById('ratingB').value);
+      const votersB = parseInt(document.getElementById('votersB').value);
+      
+      // Basic validation to ensure all fields are filled correctly
+      if (!titleA || isNaN(ratingA) || isNaN(votersA) || !titleB || isNaN(ratingB) || isNaN(votersB) || votersA <= 0 || votersB <= 0) {
+        document.getElementById('result').innerText = "Please fill in all fields with valid values.";
+        return;
+      }
+      
+      // Calculate rating proportion for each song (rating divided by 5)
+      const pA = ratingA / 5;
+      const pB = ratingB / 5;
+      
+      // Calculate the standard error and 95% confidence intervals
+      const z = 1.96; // z-score for 95% confidence level
+      const seA = Math.sqrt(pA * (1 - pA) / votersA);
+      const seB = Math.sqrt(pB * (1 - pB) / votersB);
+      
+      const lowerA = pA - z * seA;
+      const upperA = pA + z * seA;
+      const lowerB = pB - z * seB;
+      const upperB = pB + z * seB;
+      
+      // Compare the confidence intervals
+      let resultText = "";
+      if (lowerA > upperB) {
+        resultText = `${titleA} is statistically better than ${titleB}.`;
+      } else if (lowerB > upperA) {
+        resultText = `${titleB} is statistically better than ${titleA}.`;
+      } else {
+        resultText = `The results are inconclusive. We cannot determine a clear winner.`;
+      }
+      
+      // Display the result
+      document.getElementById('result').innerText = resultText;
+    });
+  </script>
+  
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

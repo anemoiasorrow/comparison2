@@ -8,100 +8,124 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #f8f9fa;
+      background-color: #121212;
+      color: #e0e0e0;
     }
     .container {
-      max-width: 600px;
-      margin-top: 50px;
+      max-width: 500px;
+      margin-top: 30px;
     }
     .card {
-      margin-bottom: 20px;
+      background-color: #1e1e1e;
+      border: none;
+      margin-bottom: 15px;
+    }
+    .card-header {
+      background-color: #272727;
+      border-bottom: none;
+    }
+    .btn-primary {
+      background-color: #3a86ff;
+      border: none;
     }
     .result {
-      font-size: 1.25rem;
-      font-weight: bold;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    .details {
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2 class="text-center mb-4">Song Comparison</h2>
+    <h4 class="text-center mb-3">Song Comparison</h4>
     
     <!-- Song A Form -->
-    <div class="card">
-      <div class="card-header">
-        Song A
+    <div class="card p-3">
+      <h5>Song A</h5>
+      <div class="mb-2">
+        <label for="titleA" class="form-label">Title</label>
+        <input type="text" id="titleA" class="form-control form-control-sm" placeholder="Song A title">
       </div>
-      <div class="card-body">
-        <div class="mb-3">
-          <label for="titleA" class="form-label">Title</label>
-          <input type="text" id="titleA" class="form-control" placeholder="Enter Song A title">
-        </div>
-        <div class="mb-3">
-          <label for="ratingA" class="form-label">Rating (0-5)</label>
-          <input type="number" id="ratingA" class="form-control" placeholder="Enter rating" step="0.1" min="0" max="5">
-        </div>
-        <div class="mb-3">
-          <label for="votersA" class="form-label">Number of Voters</label>
-          <input type="number" id="votersA" class="form-control" placeholder="Enter number of voters" min="1">
-        </div>
+      <div class="mb-2">
+        <label for="ratingA" class="form-label">Rating (0-5)</label>
+        <input type="number" id="ratingA" class="form-control form-control-sm" placeholder="Rating" step="0.1" min="0" max="5">
+      </div>
+      <div class="mb-2">
+        <label for="votersA" class="form-label">Voters</label>
+        <input type="number" id="votersA" class="form-control form-control-sm" placeholder="Number of voters" min="1">
       </div>
     </div>
     
     <!-- Song B Form -->
-    <div class="card">
-      <div class="card-header">
-        Song B
+    <div class="card p-3">
+      <h5>Song B</h5>
+      <div class="mb-2">
+        <label for="titleB" class="form-label">Title</label>
+        <input type="text" id="titleB" class="form-control form-control-sm" placeholder="Song B title">
       </div>
-      <div class="card-body">
-        <div class="mb-3">
-          <label for="titleB" class="form-label">Title</label>
-          <input type="text" id="titleB" class="form-control" placeholder="Enter Song B title">
-        </div>
-        <div class="mb-3">
-          <label for="ratingB" class="form-label">Rating (0-5)</label>
-          <input type="number" id="ratingB" class="form-control" placeholder="Enter rating" step="0.1" min="0" max="5">
-        </div>
-        <div class="mb-3">
-          <label for="votersB" class="form-label">Number of Voters</label>
-          <input type="number" id="votersB" class="form-control" placeholder="Enter number of voters" min="1">
-        </div>
+      <div class="mb-2">
+        <label for="ratingB" class="form-label">Rating (0-5)</label>
+        <input type="number" id="ratingB" class="form-control form-control-sm" placeholder="Rating" step="0.1" min="0" max="5">
+      </div>
+      <div class="mb-2">
+        <label for="votersB" class="form-label">Voters</label>
+        <input type="number" id="votersB" class="form-control form-control-sm" placeholder="Number of voters" min="1">
       </div>
     </div>
     
     <!-- Compare Button -->
-    <div class="d-grid">
-      <button id="compareBtn" class="btn btn-primary">Compare Songs</button>
+    <div class="d-grid mb-3">
+      <button id="compareBtn" class="btn btn-primary btn-sm">Compare Songs</button>
     </div>
     
     <!-- Result -->
-    <div id="result" class="result mt-4 text-center"></div>
+    <div id="result" class="result text-center mb-2"></div>
+    
+    <!-- Collapsible Details -->
+    <div class="accordion" id="detailsAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingDetails">
+          <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
+            Show Details
+          </button>
+        </h2>
+        <div id="collapseDetails" class="accordion-collapse collapse" aria-labelledby="headingDetails" data-bs-parent="#detailsAccordion">
+          <div class="accordion-body details">
+            <div id="detailsContent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </div>
   
   <script>
     document.getElementById('compareBtn').addEventListener('click', function() {
       // Retrieve input values for Song A
-      const titleA = document.getElementById('titleA').value;
+      const titleA = document.getElementById('titleA').value.trim() || "Song A";
       const ratingA = parseFloat(document.getElementById('ratingA').value);
       const votersA = parseInt(document.getElementById('votersA').value);
       
       // Retrieve input values for Song B
-      const titleB = document.getElementById('titleB').value;
+      const titleB = document.getElementById('titleB').value.trim() || "Song B";
       const ratingB = parseFloat(document.getElementById('ratingB').value);
       const votersB = parseInt(document.getElementById('votersB').value);
       
-      // Basic validation to ensure all fields are filled correctly
-      if (!titleA || isNaN(ratingA) || isNaN(votersA) || !titleB || isNaN(ratingB) || isNaN(votersB) || votersA <= 0 || votersB <= 0) {
+      // Validate inputs
+      if (isNaN(ratingA) || isNaN(votersA) || isNaN(ratingB) || isNaN(votersB) || votersA <= 0 || votersB <= 0) {
         document.getElementById('result').innerText = "Please fill in all fields with valid values.";
+        document.getElementById('detailsContent').innerHTML = "";
         return;
       }
       
-      // Calculate rating proportion for each song (rating divided by 5)
+      // Calculate rating proportions
       const pA = ratingA / 5;
       const pB = ratingB / 5;
       
-      // Calculate the standard error and 95% confidence intervals
-      const z = 1.96; // z-score for 95% confidence level
+      // Calculate standard errors and 95% confidence intervals (using z = 1.96)
+      const z = 1.96;
       const seA = Math.sqrt(pA * (1 - pA) / votersA);
       const seB = Math.sqrt(pB * (1 - pB) / votersB);
       
@@ -117,11 +141,19 @@
       } else if (lowerB > upperA) {
         resultText = `${titleB} is statistically better than ${titleA}.`;
       } else {
-        resultText = `The results are inconclusive. We cannot determine a clear winner.`;
+        resultText = `The results are inconclusive.`;
       }
       
-      // Display the result
       document.getElementById('result').innerText = resultText;
+      
+      // Populate details section with the computed confidence intervals
+      const detailsHTML = `
+        <p><strong>${titleA}</strong> (Proportion: ${(pA*100).toFixed(2)}%)<br>
+        Confidence Interval: [${(lowerA*100).toFixed(2)}%, ${(upperA*100).toFixed(2)}%]</p>
+        <p><strong>${titleB}</strong> (Proportion: ${(pB*100).toFixed(2)}%)<br>
+        Confidence Interval: [${(lowerB*100).toFixed(2)}%, ${(upperB*100).toFixed(2)}%]</p>
+      `;
+      document.getElementById('detailsContent').innerHTML = detailsHTML;
     });
   </script>
   
@@ -129,3 +161,4 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

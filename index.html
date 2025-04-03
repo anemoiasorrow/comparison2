@@ -1,99 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Song Comparison App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Song Comparison</title>
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
     body {
-      background-color: #121212;
+      background-color: #181818;
       color: #e0e0e0;
     }
-    .container {
-      max-width: 500px;
-      margin-top: 30px;
-    }
     .card {
-      background-color: #1e1e1e;
+      background-color: #242424;
       border: none;
-      margin-bottom: 15px;
     }
-    .card-header {
-      background-color: #272727;
-      border-bottom: none;
+    .form-control {
+      background-color: #333;
+      color: #e0e0e0;
+      border: 1px solid #444;
+    }
+    .form-control:focus {
+      background-color: #333;
+      color: #e0e0e0;
+      border-color: #3a86ff;
+      box-shadow: none;
+    }
+    .input-group-text {
+      background-color: #333;
+      border: 1px solid #444;
+      color: #e0e0e0;
     }
     .btn-primary {
       background-color: #3a86ff;
       border: none;
     }
-    .result {
-      font-size: 1.1rem;
-      font-weight: 500;
+    .accordion-button {
+      background-color: #333;
+      color: #e0e0e0;
     }
-    .details {
-      font-size: 0.9rem;
+    .accordion-button:not(.collapsed) {
+      background-color: #3a86ff;
+      color: #fff;
+    }
+    .accordion-body {
+      background-color: #242424;
+      color: #e0e0e0;
+    }
+    .compact-card {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 15px;
+    }
+    .section-title {
+      margin-bottom: 0.5rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h4 class="text-center mb-3">Song Comparison</h4>
+  <div class="container py-3">
+    <h3 class="text-center mb-4">Song Comparison</h3>
     
-    <!-- Song A Form -->
-    <div class="card p-3">
-      <h5>Song A</h5>
-      <div class="mb-2">
-        <label for="titleA" class="form-label">Title</label>
-        <input type="text" id="titleA" class="form-control form-control-sm" placeholder="Song A title">
-      </div>
-      <div class="mb-2">
-        <label for="ratingA" class="form-label">Rating (0-5)</label>
-        <input type="number" id="ratingA" class="form-control form-control-sm" placeholder="Rating" step="0.1" min="0" max="5">
-      </div>
-      <div class="mb-2">
-        <label for="votersA" class="form-label">Voters</label>
-        <input type="number" id="votersA" class="form-control form-control-sm" placeholder="Number of voters" min="1">
-      </div>
-    </div>
-    
-    <!-- Song B Form -->
-    <div class="card p-3">
-      <h5>Song B</h5>
-      <div class="mb-2">
-        <label for="titleB" class="form-label">Title</label>
-        <input type="text" id="titleB" class="form-control form-control-sm" placeholder="Song B title">
-      </div>
-      <div class="mb-2">
-        <label for="ratingB" class="form-label">Rating (0-5)</label>
-        <input type="number" id="ratingB" class="form-control form-control-sm" placeholder="Rating" step="0.1" min="0" max="5">
-      </div>
-      <div class="mb-2">
-        <label for="votersB" class="form-label">Voters</label>
-        <input type="number" id="votersB" class="form-control form-control-sm" placeholder="Number of voters" min="1">
-      </div>
-    </div>
-    
-    <!-- Compare Button -->
-    <div class="d-grid mb-3">
-      <button id="compareBtn" class="btn btn-primary btn-sm">Compare Songs</button>
-    </div>
-    
-    <!-- Result -->
-    <div id="result" class="result text-center mb-2"></div>
-    
-    <!-- Collapsible Details -->
-    <div class="accordion" id="detailsAccordion">
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingDetails">
-          <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
-            Show Details
-          </button>
-        </h2>
-        <div id="collapseDetails" class="accordion-collapse collapse" aria-labelledby="headingDetails" data-bs-parent="#detailsAccordion">
-          <div class="accordion-body details">
-            <div id="detailsContent"></div>
+    <!-- Input Section -->
+    <div class="card compact-card shadow">
+      <div class="card-body">
+        <form id="songForm">
+          <div class="mb-3">
+            <h5 class="section-title"><i class="bi bi-music-note-beamed"></i> Song A</h5>
+            <div class="input-group input-group-sm mb-2">
+              <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
+              <input type="text" id="titleA" class="form-control" placeholder="Title">
+            </div>
+            <div class="input-group input-group-sm mb-2">
+              <span class="input-group-text"><i class="bi bi-star"></i></span>
+              <input type="number" id="ratingA" class="form-control" placeholder="Rating (0-5)" step="0.1" min="0" max="5">
+            </div>
+            <div class="input-group input-group-sm">
+              <span class="input-group-text"><i class="bi bi-people"></i></span>
+              <input type="number" id="votersA" class="form-control" placeholder="Voters" min="1">
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <h5 class="section-title"><i class="bi bi-music-note-list"></i> Song B</h5>
+            <div class="input-group input-group-sm mb-2">
+              <span class="input-group-text"><i class="bi bi-card-heading"></i></span>
+              <input type="text" id="titleB" class="form-control" placeholder="Title">
+            </div>
+            <div class="input-group input-group-sm mb-2">
+              <span class="input-group-text"><i class="bi bi-star"></i></span>
+              <input type="number" id="ratingB" class="form-control" placeholder="Rating (0-5)" step="0.1" min="0" max="5">
+            </div>
+            <div class="input-group input-group-sm">
+              <span class="input-group-text"><i class="bi bi-people"></i></span>
+              <input type="number" id="votersB" class="form-control" placeholder="Voters" min="1">
+            </div>
+          </div>
+          
+          <div class="d-grid mb-2">
+            <button type="button" id="compareBtn" class="btn btn-primary btn-sm">Compare Songs</button>
+          </div>
+        </form>
+        <div id="result" class="text-center fw-semibold mb-2"></div>
+        
+        <!-- Details Accordion -->
+        <div class="accordion accordion-flush" id="detailsAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingDetails">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
+                Show Details
+              </button>
+            </h2>
+            <div id="collapseDetails" class="accordion-collapse collapse" aria-labelledby="headingDetails" data-bs-parent="#detailsAccordion">
+              <div class="accordion-body" id="detailsContent">
+                <!-- Details will be inserted here -->
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -103,12 +127,12 @@
   
   <script>
     document.getElementById('compareBtn').addEventListener('click', function() {
-      // Retrieve input values for Song A
+      // Retrieve and trim input values for Song A
       const titleA = document.getElementById('titleA').value.trim() || "Song A";
       const ratingA = parseFloat(document.getElementById('ratingA').value);
       const votersA = parseInt(document.getElementById('votersA').value);
       
-      // Retrieve input values for Song B
+      // Retrieve and trim input values for Song B
       const titleB = document.getElementById('titleB').value.trim() || "Song B";
       const ratingB = parseFloat(document.getElementById('ratingB').value);
       const votersB = parseInt(document.getElementById('votersB').value);
@@ -124,7 +148,7 @@
       const pA = ratingA / 5;
       const pB = ratingB / 5;
       
-      // Calculate standard errors and 95% confidence intervals (using z = 1.96)
+      // Calculate standard errors and 95% confidence intervals (z = 1.96)
       const z = 1.96;
       const seA = Math.sqrt(pA * (1 - pA) / votersA);
       const seB = Math.sqrt(pB * (1 - pB) / votersB);
@@ -134,7 +158,7 @@
       const lowerB = pB - z * seB;
       const upperB = pB + z * seB;
       
-      // Compare the confidence intervals
+      // Determine comparison result based on confidence intervals
       let resultText = "";
       if (lowerA > upperB) {
         resultText = `${titleA} is statistically better than ${titleB}.`;
@@ -146,7 +170,7 @@
       
       document.getElementById('result').innerText = resultText;
       
-      // Populate details section with the computed confidence intervals
+      // Update details section
       const detailsHTML = `
         <p><strong>${titleA}</strong> (Proportion: ${(pA*100).toFixed(2)}%)<br>
         Confidence Interval: [${(lowerA*100).toFixed(2)}%, ${(upperA*100).toFixed(2)}%]</p>
